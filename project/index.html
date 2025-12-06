@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISOM 839 Term Project | Your First Analytics Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0f1a;
+            --primary-light: #0f172a;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.12);
+            --success: #10b981;
+            --success-light: #34d399;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --purple-light: #a78bfa;
+            --pink: #ec4899;
+            --pink-light: #f472b6;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-bright: #ffffff;
+            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+            --gradient-2: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            --gradient-pink: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Subtle animated background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.5;
+            background: 
+                radial-gradient(ellipse at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.03) 0%, transparent 60%);
+        }
+
+        /* Focus states for accessibility */
+        a:focus-visible,
+        button:focus-visible,
+        summary:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 15, 26, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.625rem 1rem;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 0.25rem;
+            list-style: none;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            padding: 0.5rem 0.875rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 1.5rem 3rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            width: 100%;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent-glow);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--accent-light);
+            padding: 0.5rem 1.125rem;
+            border-radius: 50px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.2); }
+            50% { box-shadow: 0 0 24px 4px rgba(59, 130, 246, 0.15); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.75rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(0.9375rem, 1.8vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            min-width: 80px;
+        }
+
+        .meta-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .meta-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9375rem;
+            color: var(--accent-light);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem 5rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 80px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .section-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: var(--accent-glow);
+            padding: 0.4rem 0.65rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3vw, 1.875rem);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: clamp(1.125rem, 2vw, 1.25rem);
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.625rem;
+            color: var(--accent-light);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.9375rem;
+        }
+
+        strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-accent {
+            border-left: 3px solid var(--accent);
+        }
+
+        .card-success {
+            border-left: 3px solid var(--success);
+            background: rgba(16, 185, 129, 0.04);
+        }
+
+        .card-warning {
+            border-left: 3px solid var(--warning);
+            background: rgba(245, 158, 11, 0.04);
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.25rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.25rem;
+        }
+
+        /* Track Cards */
+        .track-card {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .track-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .track-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .track-a::before { background: var(--gradient-blue); }
+        .track-b::before { background: var(--gradient-purple); }
+        .track-c::before { background: var(--gradient-pink); }
+
+        .track-a:hover { border-color: rgba(59, 130, 246, 0.4); }
+        .track-b:hover { border-color: rgba(139, 92, 246, 0.4); }
+        .track-c:hover { border-color: rgba(236, 72, 153, 0.4); }
+
+        .track-label {
+            display: inline-block;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.625rem;
+            border-radius: 50px;
+            margin-bottom: 0.875rem;
+        }
+
+        .track-a .track-label {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--accent-light);
+        }
+
+        .track-b .track-label {
+            background: rgba(139, 92, 246, 0.12);
+            color: var(--purple-light);
+        }
+
+        .track-c .track-label {
+            background: rgba(236, 72, 153, 0.12);
+            color: var(--pink-light);
+        }
+
+        .track-card h4 {
+            color: var(--text);
+            font-size: 1.125rem;
+            margin: 0 0 0.375rem 0;
+        }
+
+        .track-card .tagline {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .track-card ul {
+            margin: 0;
+            padding-left: 1.125rem;
+        }
+
+        .track-card li {
+            margin-bottom: 0.375rem;
+            font-size: 0.8125rem;
+        }
+
+        .example-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: var(--success-light);
+            padding: 0.3rem 0.625rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        /* 70/30 Split Visualization */
+        .split-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin: 1.75rem 0;
+        }
+
+        .split-left {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
+            padding: 1.75rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .split-right {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.12) 100%);
+            padding: 1.75rem;
+        }
+
+        .split-percent {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.375rem;
+        }
+
+        .split-left .split-percent { color: var(--accent-light); }
+        .split-right .split-percent { color: var(--success-light); }
+
+        .split-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .split-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Emphasis Box */
+        .emphasis-box {
+            background: var(--gradient-1);
+            border-radius: var(--radius-xl);
+            padding: 2px;
+            margin: 1.75rem 0;
+        }
+
+        .emphasis-box-inner {
+            background: var(--primary);
+            border-radius: calc(var(--radius-xl) - 2px);
+            padding: 1.75rem;
+        }
+
+        .emphasis-box h3 {
+            margin-top: 0;
+            color: var(--text);
+            font-size: 1.125rem;
+        }
+
+        .emphasis-box ul {
+            margin-bottom: 0.5rem;
+        }
+
+        .emphasis-box li {
+            font-size: 0.875rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 1.75rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-2);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 0.375rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-5px);
+            box-shadow: 0 0 0 3px var(--primary), 0 0 12px var(--accent);
+        }
+
+        .timeline-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-light);
+            margin-bottom: 0.375rem;
+        }
+
+        .timeline-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.375rem;
+        }
+
+        .timeline-item p {
+            font-size: 0.875rem;
+            margin-bottom: 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            color: var(--text-muted);
+            margin-bottom: 0.375rem;
+            font-size: 0.9375rem;
+        }
+
+        li::marker {
+            color: var(--accent);
+        }
+
+        /* Code */
+        code {
+            font-family: 'Space Mono', monospace;
+            background: var(--surface);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.8125rem;
+            color: var(--accent-light);
+        }
+
+        pre {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.25rem 0;
+            border-radius: var(--radius-md);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 0.875rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            background: var(--surface-light);
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        td {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--text-bright);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-light);
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        /* Callouts */
+        .callout {
+            display: flex;
+            gap: 0.875rem;
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            margin: 1.25rem 0;
+        }
+
+        .callout-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .callout-content {
+            flex: 1;
+            font-size: 0.875rem;
+        }
+
+        .callout-content p {
+            font-size: inherit;
+            margin-bottom: 0;
+        }
+
+        .callout-content strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .callout-info {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .callout-success {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .callout-warning {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--gradient-1);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem 1.75rem;
+            text-align: center;
+            margin: 2.5rem 0;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+        }
+
+        .highlight-box p {
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 1.25rem;
+            font-size: 0.9375rem;
+        }
+
+        .highlight-box .hero-buttons {
+            margin-top: 1.5rem;
+        }
+
+        .highlight-box .btn-secondary {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .highlight-box .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* FAQ Accordion */
+        details {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.625rem;
+            overflow: hidden;
+        }
+
+        details[open] {
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        summary {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.125rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        details[open] summary::after {
+            content: '−';
+        }
+
+        details > div {
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        details > div p {
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border-subtle);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            margin-bottom: 0.375rem;
+        }
+
+        footer a {
+            color: var(--accent-light);
+        }
+
+        /* ============================================
+           RESPONSIVE BREAKPOINTS
+           ============================================ */
+
+        /* Small phones */
+        @media (max-width: 374px) {
+            html {
+                font-size: 14px;
+            }
+
+            nav {
+                padding: 0.5rem 0.75rem;
+            }
+
+            nav a {
+                font-size: 0.6875rem;
+                padding: 0.375rem 0.5rem;
+            }
+
+            .hero {
+                padding: 4.5rem 1rem 2rem;
+            }
+
+            .hero-meta {
+                gap: 1rem;
+            }
+
+            .meta-item {
+                min-width: 70px;
+            }
+
+            main {
+                padding: 0 1rem 3rem;
+            }
+
+            .card, .track-card {
+                padding: 1.25rem;
+            }
+
+            .highlight-box {
+                padding: 1.75rem 1.25rem;
+            }
+        }
+
+        /* Tablets and larger phones */
+        @media (min-width: 480px) {
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .split-visual {
+                flex-direction: row;
+            }
+
+            .split-left {
+                flex: 7;
+                border-bottom: none;
+                border-right: 2px solid var(--primary);
+            }
+
+            .split-right {
+                flex: 3;
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 640px) {
+            nav {
+                padding: 0.75rem 1.5rem;
+            }
+
+            nav a {
+                font-size: 0.8125rem;
+                padding: 0.5rem 0.875rem;
+            }
+
+            .hero {
+                padding: 6rem 2rem 4rem;
+            }
+
+            main {
+                padding: 0 2rem 5rem;
+            }
+
+            .card, .track-card {
+                padding: 1.75rem;
+            }
+
+            .split-percent {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Small laptops / large tablets */
+        @media (min-width: 768px) {
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                left: -2rem;
+            }
+        }
+
+        /* Laptops and desktops */
+        @media (min-width: 1024px) {
+            nav ul {
+                gap: 0.5rem;
+            }
+
+            nav a {
+                padding: 0.5rem 1rem;
+            }
+
+            main {
+                max-width: 1100px;
+            }
+
+            .card, .track-card {
+                padding: 2rem;
+            }
+
+            .highlight-box {
+                padding: 3rem 2rem;
+            }
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .badge {
+                animation: none;
+            }
+
+            .card:hover,
+            .track-card:hover,
+            .btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            nav, .bg-pattern {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 2rem 0;
+            }
+
+            .card, .track-card, table {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#philosophy">Philosophy</a></li>
+            <li><a href="#tracks">Tracks</a></li>
+            <li><a href="#deliverables">Deliverables</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#grading">Grading</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">🚀 Portfolio + Entrepreneurship</div>
+            <h1>Your First Analytics Product</h1>
+            <p class="subtitle">Design and prototype a prescriptive analytics application. Think like a product builder. Ship something real. Build your portfolio.</p>
+            
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Course</span>
+                    <span class="meta-value">ISOM 839</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Instructor</span>
+                    <span class="meta-value">Hasan Arslan</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Due Date</span>
+                    <span class="meta-value">Dec 14, 11:59 PM</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type</span>
+                    <span class="meta-value">Individual</span>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#tracks" class="btn btn-primary">Choose Your Track →</a>
+                <a href="#deliverables" class="btn btn-secondary">View Deliverables</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Overview Section -->
+        <section id="overview">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>Project Overview</h2>
+            </div>
+
+            <p>This isn't a typical term project. You're going to <strong>design and build your first analytics product</strong>—something you can demo to employers, add to your portfolio, and potentially develop further after graduation.</p>
+
+            <p>You've learned the technical skills: optimization with Gurobi, predictive modeling, decision trees, reinforcement learning basics, and vibe coding with Cursor. Now you'll apply them to create something that solves a real problem.</p>
+
+            <div class="callout callout-success">
+                <span class="callout-icon">💡</span>
+                <div>
+                    <strong>The Goal:</strong> Show that you can think like someone who builds analytics products—identifying problems worth solving, designing intelligent solutions, and shipping working software.
+                </div>
+            </div>
+
+            <h3>What You've Already Seen</h3>
+            <p>We built two complete applications together in class. These demonstrate exactly what's possible:</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4>📈 Portfolio Optimizer</h4>
+                    <p>Data collection → Statistical analysis → Mathematical optimization → Recommendations → Interactive visualization.</p>
+                    <p><a href="https://github.com/harslan/portfolio-optimizer" target="_blank">github.com/harslan/portfolio-optimizer →</a></p>
+                    <span class="example-badge">✓ Streamlit + Python + Optimization</span>
+                </div>
+                <div class="card">
+                    <h4>📊 InsightBox</h4>
+                    <p>File upload → Automatic EDA/EFA → AI-powered insights → Report generation. "The Cursor of EDA."</p>
+                    <p><a href="https://github.com/harslan/insightbox" target="_blank">github.com/harslan/insightbox →</a></p>
+                    <span class="example-badge">✓ React + TypeScript + Analytics</span>
+                </div>
+            </div>
+
+            <p>Your project will follow the same pattern: <strong>identify a problem → design the analytics approach → build a working prototype → present it professionally.</strong></p>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>The 70/30 Philosophy</h2>
+            </div>
+
+            <p>Here's the truth: <strong>Cursor can write code faster than you can type.</strong> The scarce skill isn't coding—it's knowing <em>what</em> to build and <em>why</em>.</p>
+
+            <div class="split-visual">
+                <div class="split-left">
+                    <div class="split-percent">70%</div>
+                    <div class="split-title">Thinking & Design</div>
+                    <p class="split-desc">Problem identification, value proposition, analytics approach, user journey, business case. This is where you demonstrate strategic thinking.</p>
+                </div>
+                <div class="split-right">
+                    <div class="split-percent">30%</div>
+                    <div class="split-title">Building & Shipping</div>
+                    <p class="split-desc">Working Streamlit app deployed to the web. Cursor handles the heavy lifting—you direct.</p>
+                </div>
+            </div>
+
+            <div class="emphasis-box">
+                <div class="emphasis-box-inner">
+                    <h3>🎯 What This Means For You</h3>
+                    <p>Don't spend 80% of your time debugging code. Spend 80% of your time thinking about:</p>
+                    <ul>
+                        <li>What problem is worth solving? Who cares about this?</li>
+                        <li>What data would power this solution? Where would it come from?</li>
+                        <li>What's the prescriptive analytics logic? Optimization? Prediction → Recommendation?</li>
+                        <li>How would a user interact with this? What decisions does it help them make?</li>
+                        <li>Why would someone pay for this? What's the business case?</li>
+                    </ul>
+                    <p style="margin-bottom: 0;">Then use Cursor to bring your vision to life. That's how products get built.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tracks Section -->
+        <section id="tracks">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Choose Your Track</h2>
+            </div>
+
+            <p>Pick the track that matches your interests and comfort level. All three are equally valid—choose based on what excites you.</p>
+
+            <div class="grid-3">
+                <div class="track-card track-a">
+                    <span class="track-label">Track A</span>
+                    <h4>Optimization Focus</h4>
+                    <p class="tagline">Build something that finds optimal decisions</p>
+                    <ul>
+                        <li>Resource allocation</li>
+                        <li>Scheduling & planning</li>
+                        <li>Portfolio construction</li>
+                        <li>Pricing optimization</li>
+                        <li>Network/routing problems</li>
+                    </ul>
+                    <span class="example-badge">📈 Like: Portfolio Optimizer</span>
+                </div>
+
+                <div class="track-card track-b">
+                    <span class="track-label">Track B</span>
+                    <h4>Analytics + Insights</h4>
+                    <p class="tagline">Build something that analyzes data and recommends actions</p>
+                    <ul>
+                        <li>Automated analysis tools</li>
+                        <li>Recommendation engines</li>
+                        <li>Diagnostic dashboards</li>
+                        <li>Prediction → Action systems</li>
+                        <li>Data quality analyzers</li>
+                    </ul>
+                    <span class="example-badge">📊 Like: InsightBox</span>
+                </div>
+
+                <div class="track-card track-c">
+                    <span class="track-label">Track C</span>
+                    <h4>Decision Intelligence</h4>
+                    <p class="tagline">Build something that guides users to better decisions</p>
+                    <ul>
+                        <li>Profiling → Recommendation</li>
+                        <li>Multi-step decision support</li>
+                        <li>Scenario analysis tools</li>
+                        <li>Risk assessment systems</li>
+                        <li>Strategic planning aids</li>
+                    </ul>
+                    <span class="example-badge">🧭 Like: Lighthouse Investor</span>
+                </div>
+            </div>
+
+            <h3>Example Ideas by Track</h3>
+            
+            <div class="card card-accent">
+                <h4>Track A: Optimization Examples</h4>
+                <ul>
+                    <li><strong>Staff Scheduler:</strong> Optimize employee shifts given availability, skills, and labor laws</li>
+                    <li><strong>Ad Budget Allocator:</strong> Distribute marketing spend across channels to maximize ROI</li>
+                    <li><strong>Inventory Optimizer:</strong> Determine reorder points and quantities across SKUs</li>
+                    <li><strong>Course Scheduler:</strong> Assign classes to rooms and time slots optimally</li>
+                    <li><strong>Diet Planner:</strong> Create meal plans that meet nutritional goals at minimum cost</li>
+                </ul>
+            </div>
+
+            <div class="card card-accent">
+                <h4>Track B: Analytics + Insights Examples</h4>
+                <ul>
+                    <li><strong>Churn Predictor:</strong> Identify at-risk customers and recommend retention actions</li>
+                    <li><strong>Sales Forecaster:</strong> Predict demand and suggest inventory actions</li>
+                    <li><strong>Resume Analyzer:</strong> Score resumes against job requirements with improvement suggestions</li>
+                    <li><strong>Financial Health Checker:</strong> Analyze spending patterns and recommend budget adjustments</li>
+                    <li><strong>Content Recommender:</strong> Suggest products/content based on user behavior analysis</li>
+                </ul>
+            </div>
+
+            <div class="card card-accent">
+                <h4>Track C: Decision Intelligence Examples</h4>
+                <ul>
+                    <li><strong>Investment Lighthouse:</strong> Profile investors through questions → recommend suitable stocks with reasoning</li>
+                    <li><strong>Career Pathfinder:</strong> Assess skills and goals → recommend career moves and learning paths</li>
+                    <li><strong>Vendor Selector:</strong> Guide users through requirements → score and rank suppliers</li>
+                    <li><strong>Location Advisor:</strong> Gather business requirements → recommend optimal locations with tradeoff analysis</li>
+                    <li><strong>Treatment Recommender:</strong> Collect patient symptoms → suggest diagnostic paths (educational)</li>
+                </ul>
+            </div>
+
+            <div class="callout callout-info">
+                <span class="callout-icon">💡</span>
+                <div>
+                    <strong>The "Lighthouse Investor" Idea We Discussed:</strong> A decision intelligence tool that asks 3-5 sequential, optimized questions to profile an investor, then uses that profile to recommend stocks with business analytics reasoning. This is a great Track C example—it combines profiling (prediction), optimization (question sequencing), and prescription (stock recommendations with rationale).
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliverables Section -->
+        <section id="deliverables">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>What You'll Submit</h2>
+            </div>
+
+            <p>Three things. That's it. Make each one excellent.</p>
+
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+                    <h4>GitHub Repository</h4>
+                    <p>Public repo with your code, documentation, and a stellar README that tells your story.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌐</div>
+                    <h4>Deployed App</h4>
+                    <p>Working Streamlit app on Streamlit Cloud (or Vercel/GitHub Pages for HTML apps).</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎬</div>
+                    <h4>Demo Video</h4>
+                    <p>3-5 minute Loom video walking through your concept and demonstrating the app.</p>
+                </div>
+            </div>
+
+            <h3>Your README Is Your Pitch</h3>
+            <p>The README is the most important document. It's what employers will read. It's your pitch. Make it count.</p>
+
+            <pre><code># [Your Product Name]
+
+> One-line description of what this does and who it's for.
+
+## 🎯 The Problem
+
+What problem does this solve? Who experiences it? Why does it matter?
+(2-3 paragraphs that show you understand the domain)
+
+## 💡 The Solution
+
+How does your product solve this problem? What's the prescriptive 
+analytics approach? What makes it intelligent?
+(Explain the core logic—optimization model, prediction pipeline, 
+decision framework)
+
+## 🚀 Live Demo
+
+**[Try it here →](your-streamlit-url)**
+
+![Screenshot of your app](screenshot.png)
+
+## ⚙️ How It Works
+
+1. **Step 1:** User does X
+2. **Step 2:** System analyzes/optimizes Y  
+3. **Step 3:** User receives recommendation Z
+
+### The Analytics Behind It
+
+- What data does it use?
+- What model/optimization is running?
+- How are recommendations generated?
+
+## 📊 Example Output
+
+Show a real example of what your app produces.
+Include screenshots or sample results.
+
+## 🛠️ Technology Stack
+
+- **Frontend:** Streamlit
+- **Optimization:** Gurobi / SciPy
+- **ML:** scikit-learn (if applicable)
+- **Data:** Source description
+
+## 🎓 About This Project
+
+Built for ISOM 839 (Prescriptive Analytics) at Suffolk University.
+
+**Author:** [Your Name]  
+**LinkedIn:** [Your Profile]  
+**Email:** [Your Email]
+
+## 🔮 Future Possibilities
+
+Where could this go? What would you add with more time?
+What's the business potential?
+
+## 🎬 Demo Video
+
+[Watch the 3-minute walkthrough →](your-loom-link)</code></pre>
+
+            <h3>The Demo Video</h3>
+            <div class="card">
+                <p>Record a 3-5 minute <a href="https://www.loom.com" target="_blank">Loom video</a> that covers:</p>
+                <ol>
+                    <li><strong>The Problem (60 sec):</strong> What problem are you solving? Who cares?</li>
+                    <li><strong>Your Approach (60 sec):</strong> What's the prescriptive analytics logic?</li>
+                    <li><strong>Live Demo (90-120 sec):</strong> Walk through the app, show it working</li>
+                    <li><strong>What You Learned (30-60 sec):</strong> Key insights from building this</li>
+                </ol>
+                <p style="margin-bottom: 0;"><strong>Tip:</strong> Loom is free and records your screen + face. Practice once, then record. Don't over-polish—authenticity matters more than perfection.</p>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2>Timeline</h2>
+            </div>
+
+            <div class="callout callout-warning">
+                <span class="callout-icon">📅</span>
+                <div>
+                    <strong>You Have 11 Days</strong><br>
+                    December 3 (kickoff) → December 14 (deadline). That's plenty of time if you start now and work steadily. Don't wait until the last weekend.
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Dec 3-6 — Days 1-4</div>
+                    <div class="timeline-title">🎯 Ideation & Concept Lock</div>
+                    <p>Choose your track. Pick your problem. Write a rough problem statement. Decide on your data approach. <strong>Lock your concept by Friday night.</strong></p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Dec 7-9 — Days 5-7</div>
+                    <div class="timeline-title">📐 Design & Architecture</div>
+                    <p>Map out the user flow. Design your analytics logic. Set up your GitHub repo. Start your README. Create a Streamlit skeleton.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Dec 10-12 — Days 8-10</div>
+                    <div class="timeline-title">🛠️ Build & Iterate</div>
+                    <p>Build with Cursor. Get the core functionality working. Don't chase perfection—chase "working." Test with sample data.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Dec 13-14 — Days 11-12</div>
+                    <div class="timeline-title">🚀 Deploy & Polish</div>
+                    <p>Deploy to Streamlit Cloud. Polish your README. Record your Loom video. Test your links. Submit.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Dec 14 — 11:59 PM</div>
+                    <div class="timeline-title">🎯 Submission Deadline</div>
+                    <p>Submit your GitHub link via Canvas. Ensure everything is live and accessible.</p>
+                </div>
+            </div>
+
+            <div class="callout callout-success">
+                <span class="callout-icon">⚡</span>
+                <div>
+                    <strong>Pro Tip:</strong> If your concept is locked by end of Day 4 (Dec 6), you'll have 8 full days to build. That's plenty. If you're still "exploring ideas" on Day 8, you're in trouble.
+                </div>
+            </div>
+        </section>
+
+        <!-- Grading Section -->
+        <section id="grading">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2>Grading Rubric</h2>
+            </div>
+
+            <p>Notice how the grading reflects the 70/30 philosophy—most points come from <em>thinking</em>, not coding.</p>
+
+            <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Points</th>
+                        <th>What We're Looking For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Problem & Value Proposition</strong></td>
+                        <td>25</td>
+                        <td>Clear problem statement. Compelling "why." Understanding of who benefits and why they'd care.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Analytics Approach</strong></td>
+                        <td>25</td>
+                        <td>Sound prescriptive logic. Appropriate method choice. Clear connection between data → model → recommendation.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Working Prototype</strong></td>
+                        <td>20</td>
+                        <td>App runs and demonstrates the concept. Core functionality works. Deployed and accessible.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>README & Documentation</strong></td>
+                        <td>15</td>
+                        <td>Professional, clear, tells a compelling story. Screenshots. Easy to understand what and why.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demo Video</strong></td>
+                        <td>10</td>
+                        <td>Clear communication. Demonstrates understanding. Authentic presentation.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Creativity & Ambition</strong></td>
+                        <td>5</td>
+                        <td>Originality. Going beyond the minimum. Entrepreneurial thinking.</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p style="text-align: center; margin-top: 1rem;"><strong>Total: 100 points (20% of course grade)</strong></p>
+
+            <div class="card card-success">
+                <h4>What "Good" Looks Like</h4>
+                <ul>
+                    <li>Someone unfamiliar with the course can understand your project from the README alone</li>
+                    <li>The app loads, works, and demonstrates real prescriptive analytics value</li>
+                    <li>You can explain why you made the technical choices you made</li>
+                    <li>It's something you'd be proud to show in a job interview</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2>Resources</h2>
+            </div>
+
+            <h3>Start Here: Templates & Examples</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>📈 Portfolio Optimizer (Streamlit)</h4>
+                    <p>Fork this as your starting template for Track A projects.</p>
+                    <p><a href="https://github.com/harslan/portfolio-optimizer" target="_blank">github.com/harslan/portfolio-optimizer →</a></p>
+                </div>
+                <div class="card">
+                    <h4>📊 InsightBox (React)</h4>
+                    <p>Reference for Track B analytics + insights projects.</p>
+                    <p><a href="https://github.com/harslan/insightbox" target="_blank">github.com/harslan/insightbox →</a></p>
+                </div>
+            </div>
+
+            <h3>Course Notebooks</h3>
+            <div class="card">
+                <ul>
+                    <li><a href="https://colab.research.google.com/drive/1fhkscLE_Fs0yuM8IOQ6B5CqTO4rqFCqO" target="_blank">Resource Assignment Optimization</a></li>
+                    <li><a href="https://colab.research.google.com/drive/1taAzGSqhr4t-f2gbpRlzhTNA0IiH4126" target="_blank">Gurobi + Python Setup</a></li>
+                    <li><a href="https://colab.research.google.com/drive/1iQ9AzFL4-gB2QRR1HYiTW-C5qbtaz6Rp" target="_blank">NBA Dream Team (MIP)</a></li>
+                    <li><a href="https://colab.research.google.com/drive/1mPQjTrkG7PVrDn1gDNR3NSX8L0GfpyyU" target="_blank">Simple Trading Example</a></li>
+                    <li><a href="https://colab.research.google.com/drive/1YrAVOXsEuxUoR1Ge8PS-GZ1l6CXjMFU2" target="_blank">Reinforcement Learning: Revenue & Inventory</a></li>
+                    <li><a href="https://colab.research.google.com/drive/14EcW5MjczDLkd6zpLP_x7li9qHFrNEVE" target="_blank">Tree-Based Prediction Models</a></li>
+                </ul>
+            </div>
+
+            <h3>Deployment</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>Streamlit Cloud</h4>
+                    <p>Best for Python/Streamlit apps. Free. This is the recommended path.</p>
+                    <p><a href="https://streamlit.io/cloud" target="_blank">streamlit.io/cloud →</a></p>
+                </div>
+                <div class="card">
+                    <h4>Vercel</h4>
+                    <p>Great for React/HTML apps.</p>
+                    <p><a href="https://vercel.com" target="_blank">vercel.com →</a></p>
+                </div>
+                <div class="card">
+                    <h4>Loom</h4>
+                    <p>Free screen + webcam recording for your demo video.</p>
+                    <p><a href="https://www.loom.com" target="_blank">loom.com →</a></p>
+                </div>
+            </div>
+
+            <h3>Getting Help</h3>
+            <div class="card card-success">
+                <h4>🤝 Support</h4>
+                <p><strong>Office Hours:</strong> Monday 12:15-1:30 PM or by appointment</p>
+                <p><strong>Email:</strong> <a href="mailto:harslan@suffolk.edu">harslan@suffolk.edu</a> (include "ISOM 839 Project" in subject)</p>
+                <p><strong>Phone:</strong> 617-230-3653 (Mobile)</p>
+                <p style="margin-bottom: 0;"><strong>Best strategy:</strong> Come with a specific question or blocker, not "I don't know what to build." Lock your concept first, then come for feedback.</p>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <div class="section-header">
+                <span class="section-number">08</span>
+                <h2>FAQ</h2>
+            </div>
+
+            <details>
+                <summary>Can I work with a partner?</summary>
+                <div>
+                    <p>This is an individual project. You can discuss ideas with classmates, but the concept, code, and documentation must be your own work.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>What if I can't get Gurobi working?</summary>
+                <div>
+                    <p>Use <code>scipy.optimize</code> instead—it's what the Portfolio Optimizer uses by default. For many problems, scipy is sufficient. Don't let tooling block you.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>How polished does the app need to be?</summary>
+                <div>
+                    <p>It needs to <em>work</em> and <em>demonstrate the concept</em>. Beautiful UI is nice but not required. A functional app with a great README beats a pretty app with no documentation.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Can I use AI tools like ChatGPT, Claude, or Cursor?</summary>
+                <div>
+                    <p>Yes—enthusiastically! Using AI to code is expected and encouraged. That's the "vibe coding" approach we've been practicing. Just make sure you understand what your code does and can explain your approach.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>What if my optimization model doesn't give perfect results?</summary>
+                <div>
+                    <p>That's fine. Real-world analytics is messy. What matters is that you can explain the model, show it runs, and discuss its limitations. Honest reflection on what works and doesn't is valuable.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Can I use a dataset from my job or personal life?</summary>
+                <div>
+                    <p>Absolutely—domain expertise makes for better projects. Just ensure you're not violating any confidentiality agreements. Anonymize if needed.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>What if I don't have real data for my idea?</summary>
+                <div>
+                    <p>Options: (1) Find a public dataset that's close enough, (2) Create synthetic/sample data that demonstrates the concept, (3) Use APIs for live data (like yfinance for stocks). The README should explain your data strategy including how a production version would source data.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Is the video really necessary?</summary>
+                <div>
+                    <p>Yes. It's only 3-5 minutes and it demonstrates communication skills—a key differentiator in analytics careers. Employers want to see you can explain technical work to stakeholders. Plus, it gives your project personality.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>What if Streamlit Cloud deployment fails?</summary>
+                <div>
+                    <p>Common issues: (1) Missing dependencies in requirements.txt, (2) File paths that work locally but not in cloud, (3) Large files that exceed limits. Check the Streamlit docs for troubleshooting. If truly stuck, reach out with the error message.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Can I change my idea midway through?</summary>
+                <div>
+                    <p>You can, but be careful—pivoting late eats into build time. Better to lock a "good enough" idea early than to keep searching for the "perfect" idea. Start building and iterate.</p>
+                </div>
+            </details>
+        </section>
+
+        <!-- Final CTA -->
+        <section>
+            <div class="highlight-box">
+                <h3>🚀 Ready to Build?</h3>
+                <p>This is your chance to create something real. Something you can show employers. Something that demonstrates you don't just analyze data—you build products that create value.</p>
+                <p style="margin-bottom: 1.5rem;"><strong>Lock your concept by Friday. Start building this weekend. Ship by Dec 14.</strong></p>
+                <div class="hero-buttons">
+                    <a href="https://github.com/harslan/portfolio-optimizer" target="_blank" class="btn btn-secondary">Fork the Template →</a>
+                    <a href="mailto:harslan@suffolk.edu?subject=ISOM 839 Project Question" class="btn btn-secondary">Ask a Question →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><strong>ISOM 839 — Prescriptive Analytics: Modeling and Optimization</strong></p>
+        <p>Suffolk University | Sawyer Business School | Fall 2025</p>
+        <p style="margin-top: 1rem;">Questions? <a href="mailto:harslan@suffolk.edu">harslan@suffolk.edu</a></p>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">Last Updated: December 2025</p>
+    </footer>
+</body>
+</html>
