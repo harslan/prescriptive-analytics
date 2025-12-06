@@ -49,9 +49,9 @@ Design and build your first prescriptive analytics product. This isn't a typical
 
 | Phase | Dates | Focus |
 |-------|-------|-------|
-| Ideation | Dec 3-6 | Lock your concept |
-| Design | Dec 7-9 | Map the approach, start README |
-| Build | Dec 10-12 | Build with Cursor, iterate |
+| Ideation | Dec 3-8 | Lock your concept by Sunday |
+| Design | Dec 9-10 | Map the approach, start README |
+| Build | Dec 11-12 | Build with Cursor, iterate |
 | Ship | Dec 13-14 | Deploy, polish, record video |
 
 ---
@@ -60,7 +60,7 @@ Design and build your first prescriptive analytics product. This isn't a typical
 
 1. **Choose your track** (A, B, or C)
 2. **Fork the template:** [portfolio-optimizer](https://github.com/harslan/portfolio-optimizer)
-3. **Lock your concept** by Dec 6
+3. **Lock your concept** by Sunday (Dec 8)
 4. **Build with Cursor** — let AI do the heavy lifting
 5. **Deploy to Streamlit Cloud**
 6. **Record your Loom video**
